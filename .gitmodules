@@ -1,0 +1,24 @@
+[submodule "arcanist"]
+	path = arcanist
+	url = https://gerrit.wikimedia.org/r/phabricator/arcanist
+	branch = stable
+[submodule "libphutil"]
+	path = libphutil
+	url = https://gerrit.wikimedia.org/r/phabricator/libphutil
+	branch = stable
+[submodule "extensions"]
+	path = extensions
+	url = https://gerrit.wikimedia.org/r/phabricator/extensions
+	branch = master
+[submodule "libext/security"]
+	path = libext/security
+	url = https://gerrit.wikimedia.org/r/phabricator/extensions/security
+	branch = production
+[submodule "libext/Sprint"]
+	path = libext/Sprint
+	url = https://gerrit.wikimedia.org/r/phabricator/extensions/Sprint
+	branch = production
+[submodule "phabricator"]
+	path = phabricator
+	url = https://gerrit.wikimedia.org/r/phabricator/phabricator
+	branch = production
