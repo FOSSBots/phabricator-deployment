@@ -1,0 +1,131 @@
+From db825af2f72e0fea14de419bf2630bd298147738 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Bartosz=20Dziewo=C5=84ski?= <matma.rex@gmail.com>
+Date: Sat, 10 Jan 2015 02:18:17 +0100
+Subject: [PATCH] Allow assigning users other than oneself when closing
+ owner-less tasks
+
+See T84833 (https://phabricator.wikimedia.org/T84833).
+
+The patch should be easy to maintain locally if it comes to that.
+---
+ .../controller/ManiphestTaskDetailController.php   | 20 +++++++++++++++---
+ .../ManiphestTransactionSaveController.php         | 24 ++++++++++++++--------
+ .../maniphest/behavior-transaction-controls.js     | 22 ++++++++++++++++++++
+ 3 files changed, 55 insertions(+), 11 deletions(-)
+
+diff --git a/src/applications/maniphest/controller/ManiphestTaskDetailController.php b/src/applications/maniphest/controller/ManiphestTaskDetailController.php
+index 8107021..48b7e11 100644
+--- a/src/applications/maniphest/controller/ManiphestTaskDetailController.php
++++ b/src/applications/maniphest/controller/ManiphestTaskDetailController.php
+@@ -176,9 +176,18 @@ final class ManiphestTaskDetailController extends ManiphestController {
+       unset($transaction_types[ManiphestTransaction::TYPE_OWNER]);
+     }
+ 
+-    $default_claim = array(
+-      $user->getPHID() => $user->getUsername().' ('.$user->getRealName().')',
+-    );
++    if ($task->getOwnerPHID()) {
++      $owner = id(new PhabricatorUser())->loadOneWhere(
++        'phid = %s',
++        $task->getOwnerPHID());
++      $default_claim = array(
++        $owner->getPHID() => $owner->getUsername().' ('.$owner->getRealName().')',
++      );
++    } else {
++      $default_claim = array(
++        $user->getPHID() => $user->getUsername().' ('.$user->getRealName().')',
++      );
++    }
+ 
+     $draft = id(new PhabricatorDraft())->loadOneWhere(
+       'authorPHID = %s AND draftKey = %s',
+@@ -297,6 +306,11 @@ final class ManiphestTaskDetailController extends ManiphestController {
+       Javelin::initBehavior('maniphest-transaction-controls', array(
+         'select'     => 'transaction-action',
+         'controlMap' => $control_map,
++        'closedStatuses' => array_values(ManiphestTaskStatus::getClosedStatusConstants()),
++        'statusConstant' => ManiphestTransaction::TYPE_STATUS,
++        'ownerConstant' => ManiphestTransaction::TYPE_OWNER,
++        'statusSelect' => 'resolution',
++        'ownerSelect' => 'assign_to',
+         'tokenizers' => $tokenizer_map,
+       ));
+ 
+diff --git a/src/applications/maniphest/controller/ManiphestTransactionSaveController.php b/src/applications/maniphest/controller/ManiphestTransactionSaveController.php
+index 52cb751..a0b5f99 100644
+--- a/src/applications/maniphest/controller/ManiphestTransactionSaveController.php
++++ b/src/applications/maniphest/controller/ManiphestTransactionSaveController.php
+@@ -97,16 +97,24 @@ final class ManiphestTransactionSaveController extends ManiphestController {
+ 
+     if ($action == ManiphestTransaction::TYPE_STATUS) {
+       $resolution = $request->getStr('resolution');
+-      if (!$task->getOwnerPHID() &&
+-          ManiphestTaskStatus::isClosedStatus($resolution)) {
+-        // Closing an unassigned task. Assign the user as the owner of
+-        // this task.
++      if (ManiphestTaskStatus::isClosedStatus($resolution)) {
++        // Closing the task, maybe change assignee.
+         $assign = new ManiphestTransaction();
+         $assign->setTransactionType(ManiphestTransaction::TYPE_OWNER);
+-        $assign->setNewValue($user->getPHID());
+-        $transactions[] = $assign;
+-
+-        $implicitly_claimed = true;
++        $assign_to = $request->getArr('assign_to');
++        $assign_to = reset($assign_to);
++        $assign->setNewValue($assign_to);
++        // Skip if no-op.
++        if ($task->getOwnerPHID() != $assign->getNewValue()) {
++          $transactions[] = $assign;
++          // Move the previous owner to CC.
++          if ( $task->getOwnerPHID() ) {
++            $added_ccs[] = $task->getOwnerPHID();
++          }
++          if ($user->getPHID() == $assign->getNewValue()) {
++            $implicitly_claimed = true;
++          }
++        }
+       }
+     }
+ 
+diff --git a/webroot/rsrc/js/application/maniphest/behavior-transaction-controls.js b/webroot/rsrc/js/application/maniphest/behavior-transaction-controls.js
+index 48e6c43..035e12a 100644
+--- a/webroot/rsrc/js/application/maniphest/behavior-transaction-controls.js
++++ b/webroot/rsrc/js/application/maniphest/behavior-transaction-controls.js
+@@ -15,6 +15,25 @@ JX.behavior('maniphest-transaction-controls', function(config) {
+     tokenizers[k].start();
+   }
+ 
++  var statusSelector = JX.DOM.scry(JX.$(config.statusSelect), 'select')[0];
++
++  function updateOwnerVisibility() {
++    var selectedStatus = statusSelector.value;
++    if (config.closedStatuses.indexOf(selectedStatus) != -1) {
++      JX.DOM.show(JX.$(config.ownerSelect));
++      tokenizers[config.ownerConstant].refresh();
++    } else {
++      JX.DOM.hide(JX.$(config.ownerSelect));
++    }
++  }
++
++  JX.DOM.listen(
++    statusSelector,
++    'change',
++    null,
++    updateOwnerVisibility
++  );
++
+   JX.DOM.listen(
+     JX.$(config.select),
+     'change',
+@@ -30,6 +49,9 @@ JX.behavior('maniphest-transaction-controls', function(config) {
+           JX.DOM.hide(JX.$(config.controlMap[k]));
+         }
+       }
++      if(JX.$(config.select).value == config.statusConstant) {
++        updateOwnerVisibility();
++      }
+     });
+ 
+ });
+-- 
