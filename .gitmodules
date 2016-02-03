@@ -14,12 +14,12 @@
 [submodule "libext/security"]
 	path = libext/security
 	url = https://gerrit.wikimedia.org/r/phabricator/extensions/security
-	branch = production
+	branch = production-next
         ignore = dirty
 [submodule "libext/Sprint"]
 	path = libext/Sprint
 	url = https://gerrit.wikimedia.org/r/phabricator/extensions/Sprint
-	branch = production
+	branch = production-next
 [submodule "phabricator"]
 	path = phabricator
 	url = https://gerrit.wikimedia.org/r/phabricator/phabricator
