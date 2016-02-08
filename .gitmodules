@@ -14,7 +14,7 @@
 [submodule "libext/security"]
 	path = libext/security
 	url = https://gerrit.wikimedia.org/r/phabricator/extensions/security
-	branch = production-next
+	branch = production
         ignore = dirty
 [submodule "libext/Sprint"]
 	path = libext/Sprint
