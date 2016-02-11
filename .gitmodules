@@ -22,3 +22,6 @@
 	path = phabricator
 	url = https://gerrit.wikimedia.org/r/phabricator/phabricator
 	branch = production
+[submodule "tools"]
+	path = tools
+	url = https://gerrit.wikimedia.org/r/phabricator/tools
