@@ -19,7 +19,7 @@
 [submodule "libext/Sprint"]
 	path = libext/Sprint
 	url = https://gerrit.wikimedia.org/r/phabricator/extensions/Sprint
-	branch = production-next
+	branch = production
 [submodule "phabricator"]
 	path = phabricator
 	url = https://gerrit.wikimedia.org/r/phabricator/phabricator
