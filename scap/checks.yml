@@ -1,0 +1,9 @@
+checks:
+  stop-phd:
+    type: command
+    command: service phd stop
+    stage: fetch
+  start-phd:
+    type: command
+    command: service phd start && service apache2 restart
+    stage: promote
