@@ -27,3 +27,7 @@
 [submodule "tools"]
 	path = tools
 	url = https://gerrit.wikimedia.org/r/phabricator/tools
+[submodule "libext/misc"]
+	path = libext/misc
+	url = https://gerrit.wikimedia.org/r/phabricator/extensions
+	branch = wmf/next
