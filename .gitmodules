@@ -5,7 +5,7 @@
 [submodule "libphutil"]
 	path = libphutil
 	url = https://gerrit.wikimedia.org/r/phabricator/libphutil
-	branch = stable
+	branch = wmf/stable
 [submodule "extensions"]
 	path = extensions
 	url = https://gerrit.wikimedia.org/r/phabricator/extensions
@@ -14,12 +14,12 @@
 [submodule "libext/security"]
 	path = libext/security
 	url = https://gerrit.wikimedia.org/r/phabricator/extensions/security
-	branch = production
+	branch = wmf/stable
         ignore = dirty
 [submodule "libext/Sprint"]
 	path = libext/Sprint
 	url = https://gerrit.wikimedia.org/r/phabricator/extensions/Sprint
-	branch = production
+	branch = wmf/stable
 [submodule "phabricator"]
 	path = phabricator
 	url = https://gerrit.wikimedia.org/r/phabricator/phabricator
