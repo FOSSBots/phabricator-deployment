@@ -6,6 +6,6 @@ git submodule foreach "git tag -d $TAG" > /dev/null 2>&1
 TAGCMD="git tag -a $TAG -m \"tagging $TAG\""
 git submodule foreach "$TAGCMD"
 git tag -d $TAG >/dev/null 2>&1
-git tag -a $TAG -m 'tagging $TAG'
+git tag -a $TAG -m "tagging for release: $TAG"
 git submodule foreach --quiet 'git describe'
 git describe
