@@ -1,4 +1,6 @@
 Source: libphutil
+Homepage: https://secure.phabricator.com
+Vcs-Browser: https://github.com/phacility/
 Maintainer: Wikimedia Foundation Release Engineering <releng@wikimedia.org>
 Section: devel
 Priority: optional
