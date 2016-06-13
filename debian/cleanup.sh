@@ -1,2 +1,2 @@
-pwd
-#ls **/.git
+rm libphutil/.gitignore
+rm arcanist/.gitignore

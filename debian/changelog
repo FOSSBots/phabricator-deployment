@@ -1,5 +1,13 @@
 libphutil (0.0.1) UNRELEASED; urgency=medium
 
+  [ Mukunda Modell ]
   * Initial release.
+
+  [ Antoine Musso ]
+  * Fix gbp.conf settings:
+
+  [ Mukunda Modell ]
+  * add upstream homepage and vcs url, filter VCS files
+  * merged upstream/stable
 
  -- Mukunda Modell <mmodell@wikimedia.org>  Mon, 13 Jun 2016 03:56:14 -0500
