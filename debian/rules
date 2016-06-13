@@ -1,6 +1,6 @@
 #!/usr/bin/make -f
 %:
-	dh $@
+	dh $@ --sourcedirectory=libphutil/support/xhpast
 
-override_dh_auto_build:
-	$(MAKE) -C libphutil/support/xhpast
+#override_dh_auto_build:
+#	$(MAKE) -C libphutil/support/xhpast
