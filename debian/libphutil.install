@@ -1,0 +1,2 @@
+./libphutil/src/parser/xhpast/bin/xhpast usr/bin
+./libphutil usr/share/

@@ -1,0 +1,19 @@
+Source: libphutil
+Maintainer: Wikimedia Foundation Release Engineering <releng@wikimedia.org>
+Section: devel
+Priority: optional
+Build-Depends: debhelper (>= 9)
+Standards-Version: 3.9.6
+
+Package: libphutil
+Architecture: amd64
+Depends: ${misc:Depends}
+Suggests: php5-cli
+Description: A library of PHP classes and utilities which is shared between
+ Phabricator and Arcanist.
+
+Package: arcanist
+Architecture: all
+Depends: php5-cli, git, ssh, libphutil (= ${source:Version})
+Suggests: python-tox
+Description: The arc client for interacting with Phabricator code review.
