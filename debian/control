@@ -1,6 +1,7 @@
 Source: libphutil
 Homepage: https://secure.phabricator.com
-Vcs-Browser: https://github.com/phacility/
+Vcs-Browser: https://gerrit.wikimedia.org/r/phabricator/deployment
+Vcs-Git: https://phabricator.wikimedia.org/diffusion/PHDEP/phabricator-deployment.git
 Maintainer: Wikimedia Foundation Release Engineering <releng@wikimedia.org>
 Section: devel
 Priority: optional
