@@ -1,0 +1,4 @@
+#not a script, only a shebang
+libphutil: script-not-executable */__tests__/languageguesser/*
+libphutil: arch-dependent-file-in-usr-share usr/share/libphutil/support/xhpast/*
+libphutil: binary-without-manpage usr/bin/xhpast

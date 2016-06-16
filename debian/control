@@ -6,7 +6,8 @@ Maintainer: Wikimedia Foundation Release Engineering <releng@wikimedia.org>
 Section: devel
 Priority: optional
 Build-Depends: debhelper (>= 9),
-               php5-cli
+               php5-cli,
+               help2man
 Standards-Version: 3.9.6
 
 Package: libphutil
@@ -18,6 +19,6 @@ Description: A library of PHP classes and utilities which is shared between
 
 Package: arcanist
 Architecture: all
-Depends: php5-cli, git, ssh, libphutil (= ${source:Version})
+Depends: php5-cli, git, openssh-client, libphutil (= ${source:Version})
 Suggests: python-tox
 Description: The arc client for interacting with Phabricator code review.
