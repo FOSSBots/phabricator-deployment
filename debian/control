@@ -20,6 +20,6 @@ Description: A library of PHP classes and utilities which is shared between
 
 Package: arcanist
 Architecture: all
-Depends: php5-cli, git, openssh-client, libphutil (= ${source:Version})
+Depends: php5-cli, php5-curl, git, openssh-client, libphutil (= ${source:Version})
 Suggests: python-tox
 Description: The arc client for interacting with Phabricator code review.
