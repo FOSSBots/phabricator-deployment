@@ -16,11 +16,17 @@ Package: libphutil
 Architecture: amd64
 Depends: ${misc:Depends}
 Suggests: php5-cli
-Description: A library of PHP classes and utilities which is shared between
+Description: Library of PHP classes and utilities which is shared between
  Phabricator and Arcanist.
+ .
+ Enhance PHP with classes such as Futures/Promises, nicer print, PHP abstract
+ syntax tree, remarkup a lightweight Markdown language, daemon wrapper...
 
 Package: arcanist
 Architecture: all
 Depends: php5-cli, php5-curl, git, openssh-client, libphutil (= ${source:Version})
 Suggests: python-tox
-Description: The arc client for interacting with Phabricator code review.
+Description: arc client for interacting with Phabricator code review.
+ .
+ arcanist is the command-line interface to Phabricator. It provides CLI access
+ to several Phabricator tools such as Differential or Paste.

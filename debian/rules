@@ -10,6 +10,10 @@ arc.1:
 	$(call help2man,$@,arcanist,a code review and revision management utility for phabricator)
 override_dh_auto_build:
 	$(MAKE) -C libphutil/support/xhpast
+override_dh_shlibdeps:
+	dh_shlibdeps -l$(CURDIR)/usr/share/libphutil/support/xhpast
+override_dh_install:
+	dh_install -X.gitignore
 override_dh_installman: arc.1
 	dh_installman -p arcanist arc.1
 clean:
