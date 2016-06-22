@@ -1,4 +1,4 @@
-libphutil (0~git20160620-0wmf1) UNRELEASED; urgency=medium
+libphutil (0~git20160620-0wmf1) jessie-wikimedia; urgency=medium
 
   [ Mukunda Modell ]
   * Updated phabricator/deployment Project: phabricator/libphutil  ce285266744366e0168da064664a1dd4cd2272d5
