@@ -1,0 +1,10 @@
+{
+  "phabricator.uri" : "https://phabricator.wikimedia.org/",
+  "repository.callsign" : "PHDEP",
+  "history.immutable" : false,
+  "load": [
+    "arcanist/src",
+    "phabricator/src",
+    "scripts/"
+  ]
+}
