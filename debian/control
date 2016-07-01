@@ -14,7 +14,7 @@ Standards-Version: 3.9.6
 
 Package: libphutil
 Architecture: amd64
-Depends: ${misc:Depends}
+Depends: ${misc:Depends}, ${shlibs:Depends}
 Suggests: php5-cli
 Description: Library of PHP classes and utilities which is shared between
  Phabricator and Arcanist.
@@ -24,7 +24,7 @@ Description: Library of PHP classes and utilities which is shared between
 
 Package: arcanist
 Architecture: all
-Depends: php5-cli, php5-curl, git, openssh-client, libphutil (= ${source:Version})
+Depends: php5-cli, php5-curl, git, openssh-client, libphutil (= ${source:Version}), ${shlibs:Depends}
 Suggests: python-tox
 Description: arc client for interacting with Phabricator code review.
  .
