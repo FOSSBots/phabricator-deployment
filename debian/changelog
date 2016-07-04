@@ -1,4 +1,4 @@
-libphutil (0~git20160620-0wmf2) UNRELEASED; urgency=medium
+libphutil (0~git20160620-0wmf2) jessie-wikimedia; urgency=medium
 
   * Clean libphutil in debian/rules
   * Remove unneeded artifacts shipped with libphutil/arcanist
