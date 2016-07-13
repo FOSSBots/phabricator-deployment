@@ -10,7 +10,7 @@
 	path = libext/security
 	url = https://gerrit.wikimedia.org/r/phabricator/extensions/security
 	branch = wmf/stable
-        ignore = dirty
+	ignore = dirty
 [submodule "libext/Sprint"]
 	path = libext/Sprint
 	url = https://gerrit.wikimedia.org/r/phabricator/extensions/Sprint
@@ -21,9 +21,9 @@
 	branch = wmf/stable
 [submodule "tools"]
 	path = tools
-	url = https://gerrit.wikimedia.org/r/phabricator/tools
-        branch = master
+	url = https://phabricator.wikimedia.org/diffusion/PHTO/phabricator-tools.git
+	branch = master
 [submodule "libext/misc"]
 	path = libext/misc
-	url = https://gerrit.wikimedia.org/r/phabricator/extensions
+	url = https://phabricator.wikimedia.org/diffusion/PHEX/phab-extensions.git
 	branch = wmf/stable
