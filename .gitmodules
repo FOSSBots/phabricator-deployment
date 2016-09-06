@@ -1,11 +1,11 @@
 [submodule "arcanist"]
 	path = arcanist
 	url = https://phabricator.wikimedia.org/diffusion/ARC/arcanist.git
-	branch = wmf/stable
+	branch = wmf/dev
 [submodule "libphutil"]
 	path = libphutil
 	url = https://gerrit.wikimedia.org/r/phabricator/libphutil
-	branch = wmf/stable
+	branch = wmf/dev
 [submodule "libext/security"]
 	path = libext/security
 	url = https://gerrit.wikimedia.org/r/phabricator/extensions/security
@@ -18,7 +18,7 @@
 [submodule "phabricator"]
 	path = phabricator
 	url = https://gerrit.wikimedia.org/r/phabricator/phabricator
-	branch = wmf/stable
+	branch = wmf/dev
 [submodule "tools"]
 	path = tools
 	url = https://phabricator.wikimedia.org/diffusion/PHTO/phabricator-tools.git
