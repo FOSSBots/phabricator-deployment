@@ -94,7 +94,7 @@ class AsciiTable(object):
         foot = cell.corners[2] + line + cell.corners[3]
 
         rows = [head] + rows + [foot]
-        return "\n".join(rows)
+        return "\n".join(rows) + ansi.esc(ansi.RESET_ALL)
 
     def __repr__(self):
         return self.render()

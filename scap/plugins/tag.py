@@ -1,3 +1,5 @@
+# This Python file uses the following encoding: utf-8
+
 from __future__ import print_function, unicode_literals
 
 import datetime
@@ -23,6 +25,9 @@ def repo_plus_submodules():
     yield './'
     for mod in all_submodules():
         yield mod
+
+def trunc(len, string, ellipsis=" …"):
+    return string[0:len] + ellipsis
 
 
 @cli.command('tag', help='Manage release tags.', subcommands=False)
@@ -51,10 +56,13 @@ class ReleaseTagger(cli.Application):
             action()
         elif self.arguments.action == 'list':
             table = AsciiTable()
-            table.header_row(('path', 'tag'))
+            table.header_row(('path', 'branch', 'tag', 'commit'))
             for path in repo_plus_submodules():
                 with cd(path):
-                    table.row([path, git('describe')])
+                    sha1 = git('rev-parse', 'HEAD')
+                    branch = git('symbolic-ref', '--short', 'HEAD')
+                    desc = git('describe')
+                    table.row([path, branch, desc, trunc(10, sha1.stdout)])
 
             print(table.render())
 
