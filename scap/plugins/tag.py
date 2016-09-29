@@ -29,52 +29,103 @@ def repo_plus_submodules():
 def trunc(len, string, ellipsis=" …"):
     return string[0:len] + ellipsis
 
+def action_arg(*args, **kwargs):
+    kwargs['const'] = kwargs['action']
+    kwargs['dest'] = 'action'
+    kwargs['action'] ='store_const'
+    kwargs['metavar'] = 'ACTION'
+    return cli.argument(*args, **kwargs)
 
-@cli.command('tag', help='Manage release tags.', subcommands=False)
 
+@cli.command('tag', subcommands=True)
+@cli.argument('-h', '--help', action='help')
 class ReleaseTagger(cli.Application):
+    """
+    Manage release tags in this repository plus each of it's submodules.
+    """
+    action = None
 
     def _setup_loggers(self):
         """Setup logging."""
         log.setup_loggers(self.config, self.arguments.loglevel + 10)
 
-    @cli.argument('-l','--list', dest='action', action='store_const',
-                  const='list', help='List tags')
-    @cli.argument('-c', dest='action', action='store_const', const='create',
-                  help='Create new tag.')
+
+    def _process_arguments(self, args, extra_args):
+        #print(args,extra_args)
+        return args,extra_args
+
+    #@cli.argument('-l', help='list tags', action='store_true')
+
+    @cli.subcommand()
+    def list(self, *args):
+        ''' list the most recent tag in this repo plus all submodules '''
+        table = AsciiTable()
+        table.header_row(('path', 'branch', 'tag', 'commit'))
+        for path in repo_plus_submodules():
+            with cd(path):
+                sha1 = git('rev-parse', 'HEAD')
+                branch = git('symbolic-ref', '--short', 'HEAD')
+                desc = git('describe')
+                table.row([path, branch, desc, trunc(10, sha1.stdout)])
+        print(table.render())
+
+    @cli.argument('msg', metavar='TEXT', nargs='?', default='',
+                  help='Tag Annotation / Commit message.')
     @cli.argument('--date', nargs=1, default=None, type=str, metavar='YYYY-MM-DD',
-                  help="Specify the date for your tag, default: today's date")
+                help="Specify the date for your tag, default: today's date")
     @cli.argument('-s', nargs=1, type=int, default=1, dest='seq', metavar='SEQ',
-                  help='Sequence number: Increase this number when you tag\
-                  more than one release on the same date.')
-    @cli.argument('-m', dest='msg', metavar='TEXT', nargs='+', default='',
-                  help='Commit message.')
-    def main(self, *args):
-        # print(self.arguments)
-        action = getattr(self, self.arguments.action, False)
-        if action:
-            action()
-        elif self.arguments.action == 'list':
-            table = AsciiTable()
-            table.header_row(('path', 'branch', 'tag', 'commit'))
-            for path in repo_plus_submodules():
-                with cd(path):
-                    sha1 = git('rev-parse', 'HEAD')
-                    branch = git('symbolic-ref', '--short', 'HEAD')
-                    desc = git('describe')
-                    table.row([path, branch, desc, trunc(10, sha1.stdout)])
+                help='Sequence number: Increase this number when you tag\
+                more than one release on the same date.')
+    @cli.argument('-f', '--force', action='store_true',
+                  help='Continue operation ignoring any errors.')
+    def create(self, *args):
+        ''' create a tag in this repo plus all submodules '''
+        tag, date, seq = self.get_calver_tag()
 
-            print(table.render())
+        if len(self.arguments.msg):
+            msg = " ".join(self.arguments.msg)
+        else:
+            msg = "Release tag #%s for %s" % (seq, date)
 
-    def create(self):
+        print('Tagging repository + all submodules at HEAD -> %s' % tag)
+        print('Tag annotation: "%s"' % msg)
+
+        for path in repo_plus_submodules():
+            with cd(path):
+                try:
+                    git('tag', '-a', '-m', msg, tag)
+                    print(git('describe'))
+                except Exception as ex:
+                    if self.arguments.force:
+                        print(ex)
+                    else:
+                        raise ex
+
+    @cli.argument('--date', nargs=1, default=None, type=str, metavar='YYYY-MM-DD',
+                help="Specify the date for your tag, default: today's date")
+    @cli.argument('-s', nargs=1, type=int, default=1, dest='seq', metavar='SEQ',
+                help='Sequence number: Increase this number when you tag\
+                more than one release on the same date.')
+    @cli.argument('-f', '--force', action='store_true',
+                  help='Continue operation ignoring any errors.')
+    def delete(self, *args):
+        ''' delete tag in this repo plus all submodules '''
+        tag,date,seq = self.get_calver_tag()
+        for path in repo_plus_submodules():
+            with cd(path):
+                print(git('tag','-d', tag))
+
+    def get_calver_tag(self):
+        ''' generate a tag string with the format release/{date}/{sequence} '''
         date = self.arguments.date
         seq = self.arguments.seq
-        msg = " ".join(self.arguments.msg)
+
         if (date is None):
             date=datetime.datetime.today()
             date_format="%Y-%m-%d"
             date = date.strftime(date_format)
-
+        else:
+            date=date[0]
         if len(date) != 10:
             raise ValueError('Date must be 10 digits, YYYY-MM-DD. You entered: %s' % date)
 
@@ -83,10 +134,4 @@ class ReleaseTagger(cli.Application):
 
         tag_format="release/{date}/{seq}"
 
-        tag = tag_format.format(date=date, seq=seq)
-        print('Tagging repo and all submodules with new tag %s at HEAD' % tag)
-        print('Tag annotation: %s' % msg)
-
-        for path in repo_plus_submodules():
-            with cd(path):
-                git('tag', '-a', '-m', msg, tag)
+        return (tag_format.format(date=date, seq=seq), date, seq)
