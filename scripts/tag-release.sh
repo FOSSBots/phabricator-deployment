@@ -1,6 +1,7 @@
 #!/bin/bash
 TAGDATE=`date +%Y-%m-%d`
-REV=1
+DEFAULTREV=1
+REV=${2-$DEFAULTREV}
 TAGDATE=${1-$TAGDATE}
 TAG="release/$TAGDATE/$REV"
 git submodule foreach "git tag -d $TAG" > /dev/null 2>&1
