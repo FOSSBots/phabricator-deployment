@@ -4,20 +4,20 @@
 	branch = wmf/stable
 [submodule "libphutil"]
 	path = libphutil
-	url = https://gerrit.wikimedia.org/r/phabricator/libphutil
+	url = https://phabricator.wikimedia.org/diffusion/PHUTIL/libphutil.git
 	branch = wmf/stable
 [submodule "libext/security"]
 	path = libext/security
-	url = https://gerrit.wikimedia.org/r/phabricator/extensions/security
+	url = https://phabricator.wikimedia.org/diffusion/PHES/phabricator-security.git
 	branch = wmf/stable
 	ignore = dirty
 [submodule "libext/Sprint"]
 	path = libext/Sprint
-	url = https://gerrit.wikimedia.org/r/phabricator/extensions/Sprint
+	url = https://phabricator.wikimedia.org/diffusion/PHSP/phabricator-sprint.git 
 	branch = wmf/stable
 [submodule "phabricator"]
 	path = phabricator
-	url = https://gerrit.wikimedia.org/r/phabricator/phabricator
+	url = https://phabricator.wikimedia.org/diffusion/PHAB/phabricator.git
 	branch = wmf/stable
 [submodule "tools"]
 	path = tools
