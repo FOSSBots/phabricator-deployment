@@ -1,30 +1,29 @@
 [submodule "arcanist"]
-    path = arcanist
-    url = https://gerrit.wikimedia.org/r/phabricator/arcanist
-    branch = wmf/stable
+	path = arcanist
+	url = https://phabricator.wikimedia.org/diffusion/ARC/arcanist.git
+	branch = wmf/stable
 [submodule "libphutil"]
-    path = libphutil
-    url = https://gerrit.wikimedia.org/r/phabricator/libphutil
-    branch = wmf/stable
+	path = libphutil
+	url = https://phabricator.wikimedia.org/diffusion/PHUTIL/libphutil.git
+	branch = wmf/stable
 [submodule "libext/security"]
-    path = libext/security
-    url = https://gerrit.wikimedia.org/r/phabricator/extensions/security
-    branch = wmf/stable
-        ignore = dirty
+	path = libext/security
+	url = https://phabricator.wikimedia.org/diffusion/PHES/phabricator-security.git
+	branch = wmf/stable
+	ignore = dirty
 [submodule "libext/Sprint"]
-    path = libext/Sprint
-    url = https://gerrit.wikimedia.org/r/phabricator/extensions/Sprint
-    branch = wmf/stable
+	path = libext/Sprint
+	url = https://phabricator.wikimedia.org/diffusion/PHSP/phabricator-sprint.git 
+	branch = wmf/stable
 [submodule "phabricator"]
-    path = phabricator
-    url = https://gerrit.wikimedia.org/r/phabricator/phabricator
-    branch = wmf/stable
+	path = phabricator
+	url = https://phabricator.wikimedia.org/diffusion/PHAB/phabricator.git
+	branch = wmf/stable
 [submodule "tools"]
-    path = tools
-    url = https://gerrit.wikimedia.org/r/phabricator/tools
-        branch = master
+	path = tools
+	url = https://phabricator.wikimedia.org/diffusion/PHTO/phabricator-tools.git
+	branch = master
 [submodule "libext/misc"]
-    path = libext/misc
-    url = https://gerrit.wikimedia.org/r/phabricator/extensions
-    branch = wmf/stable
-
+	path = libext/misc
+	url = https://phabricator.wikimedia.org/diffusion/PHEX/phab-extensions.git
+	branch = wmf/stable

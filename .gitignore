@@ -1,3 +1,4 @@
 .*.swp
 *.pyc
 scap/log
+/debian
