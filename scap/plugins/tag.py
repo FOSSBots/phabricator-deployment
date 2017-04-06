@@ -132,7 +132,7 @@ class ReleaseTagger(cli.Application):
 
     @cli.argument('--project', nargs=1, default='phabricator', dest='project',
                   metavar='PROJECT', help='Create a milestone within PROJECT')
-    @cli.argument('--template', nargs=1, default='phab.tmpl', dest='template',
+    @cli.argument('--template', nargs=1, default='templates/phab.tmpl', dest='template',
                   metavar='template', help='template file', type=file)
     @cli.argument('milestone', nargs=1, type=str,
                   help='The name of a milestone to create')
@@ -149,7 +149,7 @@ class ReleaseTagger(cli.Application):
         }
         project = phab.project.search(constraints=query)
 
-        template = Template("".join(self.arguments.template[0].readlines()))
+        template = Template("".join(self.arguments.template.readlines()))
         # dump_json(vars(self.arguments).keys())
         tmpl_vars = {}
         for key in vars(self.arguments).keys():
