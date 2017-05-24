@@ -130,27 +130,36 @@ class ReleaseTagger(cli.Application):
             with cd(path):
                 print(git('tag', '-d', tag))
 
-    @cli.argument('--project', nargs=1, default='phabricator', dest='project',
+    @cli.argument('--project', default='phabricator', dest='project',
                   metavar='PROJECT', help='Create a milestone within PROJECT')
-    @cli.argument('--template', nargs=1, default='templates/phab.tmpl', dest='template',
-                  metavar='template', help='template file', type=file)
-    @cli.argument('milestone', nargs=1, type=str,
-                  help='The name of a milestone to create')
-    @cli.argument('--hashtag', nargs=1, default=None,
+    @cli.argument('--template', default='templates/phab.tmpl', dest='template',
+                  metavar='template', help='template file')
+    @cli.argument('--hashtag', default=None,
                   help='Hashtag used to refer to the milestone. Defaults to \
                   ProjectName-MilestoneName')
+    @cli.argument('milestone', nargs=1, type=str,
+                  help='The name of a milestone to create')
     def milestone(self, *args):
         ''' create a milestone in phabricator '''
-        phab = Phabricator()  # This will use your ~/.arcrc file
+        phab = Phabricator(host='https://phabricator.wikimedia.org/api/')
         project_name = self.arguments.project
-        query = {
-            'name': project_name,
-            'isMilestone': False
-        }
-        project = phab.project.search(constraints=query)
+        if project_name == "phabricator":
+            parent_phid = "PHID-PROJ-kfrrtvyn66ou2iq4y4ai"
+        else:
+            query = {
+                'name': project_name,
+                'isMilestone': False
+            }
+            project = phab.project.search(constraints=query)
+            parent_phid = project['data'][0]['phid']
 
-        template = Template("".join(self.arguments.template.readlines()))
-        # dump_json(vars(self.arguments).keys())
+        template_path = self.arguments.template
+        if "/" not in template_path:
+            template_path = os.path.join("templates", template_path)
+
+        with file(template_path) as template_file:
+            template = Template("".join(template_file.readlines()))
+
         tmpl_vars = {}
         for key in vars(self.arguments).keys():
             val = getattr(self.arguments, key)
@@ -173,10 +182,10 @@ class ReleaseTagger(cli.Application):
         else:
             hashtag = self.arguments.hashtag
 
-        result = phab.project.edit(transactions=[
+        trns = [
             {
                  'type': 'milestone',
-                 'value': project['data'][0]['phid']
+                 'value': parent_phid
             },
             {
                 'type': 'name',
@@ -190,8 +199,10 @@ class ReleaseTagger(cli.Application):
                 'type': 'description',
                 'value': description
             }
+        ]
 
-        ])
+        dump_json(trns);
+        result = phab.project.edit(transactions=trns)
 
         dump_json(result)
 
