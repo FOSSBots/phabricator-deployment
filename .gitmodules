@@ -22,7 +22,7 @@
 [submodule "tools"]
 	path = tools
 	url = https://phabricator.wikimedia.org/diffusion/PHTO/phabricator-tools.git
-	branch = master
+	branch = wmf/stable
 [submodule "libext/misc"]
 	path = libext/misc
 	url = https://phabricator.wikimedia.org/diffusion/PHEX/phab-extensions.git
