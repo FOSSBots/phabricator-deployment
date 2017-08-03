@@ -11,3 +11,5 @@ git tag -d $TAG >/dev/null 2>&1
 git tag -a $TAG -m "tagging for release: $TAG"
 git submodule foreach --quiet 'git describe'
 git describe
+
+scap tag milestone --project Phabricator --template ./templates/phab.tmpl $TAGDATE
