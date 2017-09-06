@@ -1,9 +1,13 @@
 checks:
-  stop-phd:
-    type: command
-    command: service phd stop
-    stage: fetch
-  start-phd:
-    type: command
-    command: service phd start && service apache2 restart
-    stage: promote
+#  stop-phd:
+#    type: command
+#    command: sudo /usr/sbin/service phd stop
+#    stage: fetch
+#  start-phd:
+#    type: command
+#    command: sudo /usr/sbin/service phd start
+#    stage: promote
+#  restart-apache:
+#    type: command
+#    command: sudo /usr/sbin/service apache2 reload
+#    stage: promote
