@@ -15,6 +15,10 @@
 	path = libext/Sprint
 	url = https://phabricator.wikimedia.org/diffusion/PHSP/phabricator-sprint.git 
 	branch = wmf/stable
+[submodule "libext/translations"]
+	path = libext/translations
+	url = https://phabricator.wikimedia.org/source/phabricator-translations/
+    branch = wmf/stable
 [submodule "phabricator"]
 	path = phabricator
 	url = https://phabricator.wikimedia.org/diffusion/PHAB/phabricator.git
