@@ -1,13 +1,13 @@
 checks:
-#  stop-phd:
-#    type: command
-#    command: sudo /usr/sbin/service phd stop
-#    stage: fetch
-#  start-phd:
-#    type: command
-#    command: sudo /usr/sbin/service phd start
-#    stage: promote
-#  restart-apache:
-#    type: command
-#    command: sudo /usr/sbin/service apache2 reload
-#    stage: promote
+  promote:
+    type: command
+    command: "sudo /usr/local/sbin/phab_deploy_promote"
+    stage: promote
+  finalize:
+    type: command
+    command: "sudo /usr/local/sbin/phab_deploy_finalize"
+    stage: finalize
+  rollback
+    type: command
+    command: "sudo /usr/local/sbin/phab_deploy_rollback"
+    stage: rollback
