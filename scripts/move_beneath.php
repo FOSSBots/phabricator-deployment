@@ -34,6 +34,11 @@ $args->parse(
       'param' => 'mode',
       'help' => pht('Choose which members to keep: both, child, parent.'),
     ),
+    array(
+      'name' => 'reparent',
+      'help' => pht('Enable dangerous reparenting of subproject trees.
+         You probably shouldn\'t try this.'),
+    ),
   ));
 
 
@@ -95,7 +100,7 @@ if ($parent->isMilestone()) {
       'not have children.'));
 }
 
-if ($child->getParentProjectPHID()) {
+if ($child->getParentProjectPHID() && !$args->getArg('reparent')) {
   throw new PhutilArgumentUsageException(
     pht(
       'The selected child project is already a child of another project. '.
@@ -104,10 +109,20 @@ if ($child->getParentProjectPHID()) {
 }
 
 if ($child->getHasSubprojects() || $child->getHasMilestones()) {
-  throw new PhutilArgumentUsageException(
-    pht(
-      'The selected child project already has subprojects or milestones '.
-      'of its own. This script can not move entire trees of projects.'));
+  if (!$args->getArg('reparent')) {
+    throw new PhutilArgumentUsageException(
+      pht(
+        'WARNING: The selected child project already has subprojects or milestones
+        of its own. Unlike the original upstream version of this script,
+        this version can re-parent a whole subtree of projects. This is
+        not very well tested and is moderately d0angerous operation.
+        Since this could completely corrupt a whole subtree of projects, the
+        operation will be aborted. If you really want to risk it, rerun the
+        command with this additional argument: `--reparent`.
+        '));
+  } else {
+    phlog('Enabling dangerous reparenting of subproject trees.');
+  }
 }
 
 if ($parent->getPHID() == $child->getPHID()) {
@@ -136,6 +151,17 @@ if ($is_milestone) {
   $copy_child = false;
   $wipe_parent = true;
   $wipe_child = ($keep_members == 'parent');
+}
+
+$grandchildren = false;
+
+if ($args->getArg('reparent')) {
+  try {
+    $grandchildren = getAllChildren($child);
+  } catch (Exception $ex) {
+    phlog('Caught exception, ignoring:');
+    phlog($ex);
+  }
 }
 
 $child->setParentProjectPHID($parent->getPHID());
@@ -179,6 +205,10 @@ id(new PhabricatorProjectsMembershipIndexEngineExtension())
 
 id(new PhabricatorProjectsMembershipIndexEngineExtension())
   ->rematerialize($child);
+
+if ($grandchildren) {
+  fix_project_paths($parent, $grandchildren);
+}
 
 echo tsprintf(
   "%s\n",
@@ -236,3 +266,53 @@ function edit_members(array $phids, PhabricatorProject $target, $add) {
   $editor->save();
 }
 
+function getAllChildren($parent) {
+  $path = $parent->getProjectPath();
+  $depth = $parent->getProjectDepth();
+
+  $table = new PhabricatorProject();
+  $conn = $table->establishConnection('w');
+  
+  $rows = queryfx_all(
+    $conn,
+    'SELECT phid, projectPath, projectDepth from phabricator_project.project 
+      WHERE projectPath LIKE %> AND projectPathKey != projectPath',
+    $path
+  );
+
+  return $rows;
+}
+
+/**
+ * When moving a project which has it's own children, we need to Fix the
+ * projectPath and projectDepth of the child and all of it's children.
+ * 
+ * 1. Prepend the new parent project's path to the projectPath of all children
+ * 2. Increment projectDepth of all children by the new parent's projectDepth
+ */
+function fix_project_paths($parent, $children) {
+  $path = $parent->getProjectPath();
+  $depth = $parent->getProjectDepth();
+  
+  $viewer = PhabricatorUser::getOmnipotentUser();
+
+  $table = new PhabricatorProject();
+  $conn = $table->establishConnection('w');
+
+  foreach ($children as $grandchild) {
+    $phid = $grandchild['phid'];
+    $newpath = $path . $grandchild['projectPath'];;
+    $newdepth = $grandchild['projectDepth'] + 1;
+
+    queryfx(
+      $conn,
+      'UPDATE phabricator_project.project 
+          SET projectPath = %s, projectDepth = %s
+        WHERE phid= %s',
+      $newpath, 
+      $newdepth,
+      $phid
+    );
+
+  }
+}
