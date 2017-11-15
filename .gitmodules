@@ -31,3 +31,6 @@
 	path = libext/misc
 	url = https://phabricator.wikimedia.org/diffusion/PHEX/phab-extensions.git
 	branch = wmf/stable
+#[submodule "translatewiki"]
+#	path = translatewiki
+#	url = https://secure.phabricator.com/source/translatewiki.git
