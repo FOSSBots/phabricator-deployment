@@ -1,3 +1,4 @@
+/debian
+/node_modules
 *.pyc
 scap/log
-/debian

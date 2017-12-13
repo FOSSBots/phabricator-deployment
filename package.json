@@ -1,0 +1,23 @@
+{
+  "name": "phab-deployment",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "ssh://vcs@git-ssh.wikimedia.org/source/phab-deployment.git"
+  },
+  "author": "",
+  "license": "GPL-2.0",
+  "devDependencies": {
+    "wdio-mocha-framework": "^0.5.12",
+    "wdio-spec-reporter": "^0.1.3",
+    "webdriverio": "^4.9.11"
+  }
+}
