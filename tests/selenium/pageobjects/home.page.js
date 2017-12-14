@@ -3,7 +3,15 @@ const Page = require( './page' );
 
 class HomePage extends Page {
 
-	get content() { return browser.element( '#wpTextbox1' ); }
+	get searchBox() { return browser.element( '[name="query"]' ); }
 
+	open() {
+		super.open( '' );
+	}
+
+	search( term ) {
+		this.open();
+		this.searchBox.setValue( `${term}\n` );
+	}
 }
 module.exports = new HomePage();

@@ -1,16 +1,15 @@
 'use strict';
 const assert = require( 'assert' ),
-	HomePage = require( '../pageobjects/home.page' );
+	HomePage = require( '../pageobjects/home.page' ),
+	SearchPage = require( '../pageobjects/search.page' );
 
 describe( 'Homepage', function () {
 
-	it( 'should have functional search', function () {
+	it( 'when searching for db1110 from homepage, search page should open', function () {
 
-		// create
-		HomePage.open();
+		HomePage.search( 'db1110' );
 
-		// check
-		assert.equal();
+		assert( SearchPage.search.isExisting() );
 
 	} );
 
