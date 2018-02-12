@@ -17,7 +17,7 @@
 	branch = wmf/stable
 [submodule "translations"]
 	path = translations
-	url = ./translations/
+	url = https://phabricator.wikimedia.org/source/phabricator-translations.git
 	branch = wmf/stable
 [submodule "phabricator"]
 	path = phabricator
