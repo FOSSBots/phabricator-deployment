@@ -31,3 +31,7 @@
 	path = libext/misc
 	url = https://phabricator.wikimedia.org/diffusion/PHEX/phab-extensions.git
 	branch = wmf/stable
+[submodule "libext/ava"]
+	path = libext/ava
+	url = ssh://git-ssh.wikimedia.org/source/phabricator-ava.git
+    branch = wmf/stable
