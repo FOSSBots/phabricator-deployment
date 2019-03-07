@@ -1,1 +1,1 @@
-scap tag milestone --project Phabricator --template ./templates/phab.tmpl
+scap tag milestone --project phabricator --template ./templates/phab.tmpl --hashtag phab-$1 $1

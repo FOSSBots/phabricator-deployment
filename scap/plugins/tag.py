@@ -77,7 +77,7 @@ class ReleaseTagger(cli.Application):
                 sha1 = git('rev-parse', 'HEAD')
                 branch = git('symbolic-ref', '--short', 'HEAD')
                 desc = git('describe')
-                table.row([path, branch, desc, trunc(10, sha1.stdout)])
+                table.row([path, branch, desc, trunc(12, sha1.stdout)])
         print(table.render())
 
     @cli.argument('msg', metavar='TEXT', nargs='?', default='',
