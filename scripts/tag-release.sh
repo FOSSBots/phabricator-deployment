@@ -1,5 +1,4 @@
 #!/bin/bash
-git diff --quiet || 
 
 TAGDATE=`date +%Y-%m-%d -u`
 DEFAULTREV=1
