@@ -33,5 +33,5 @@
 	branch = wmf/stable
 [submodule "libext/ava"]
 	path = libext/ava
-	url = ssh://git-ssh.wikimedia.org/source/phabricator-ava.git
+	url = https://gerrit.wikimedia.org/r/a/phabricator/antivandalism
     branch = wmf/stable
