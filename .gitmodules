@@ -33,5 +33,5 @@
 	branch = wmf/stable
 [submodule "libext/ava"]
 	path = libext/ava
-	url = https://gerrit.wikimedia.org/r/a/phabricator/antivandalism
+	url = https://gerrit.wikimedia.org/r/phabricator/antivandalism
     branch = wmf/stable
