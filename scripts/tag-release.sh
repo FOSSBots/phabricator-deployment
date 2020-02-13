@@ -7,10 +7,10 @@ TAGDATE="${1-$TAGDATE}"
 TAG="release/$TAGDATE/$REV"
 git submodule foreach "git tag -d $TAG" > /dev/null 2>&1
 MSG="phabricator.wikimedia.org version $TAG"
-TAGCMD="git tag -a $TAG --sign -m \"$MSG\""
+TAGCMD="git tag -a $TAG -m \"$MSG\""
 git submodule foreach "$TAGCMD"
 git tag -d "$TAG" >/dev/null 2>&1
-git tag -a "$TAG" --sign -m "$MSG"
+git tag -a "$TAG" -m "$MSG"
 git submodule foreach --quiet 'git describe'
 git describe
 
