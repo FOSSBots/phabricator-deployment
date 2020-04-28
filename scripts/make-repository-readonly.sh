@@ -8,7 +8,7 @@
 #
 
 notfound() {
-  echo "Not found
+  echo "Not found"
 }
 
 trap 'notfound' ERR
@@ -50,13 +50,13 @@ then
   do
     echo
     echo -n "Marking URI $ID read-only..."
-    $arc diffusion.uri.edit << EOF
+    $arc diffusion.uri.edit <<EOF
     {
        "transactions": [
           { "type": "io", "value": "read" }
         ], "objectIdentifier": "$ID"
     }
-EOF > /dev/null
+EOF
     echo -n
   done
   exit 0
