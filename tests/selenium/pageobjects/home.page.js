@@ -2,8 +2,8 @@
 const Page = require( './page' );
 
 class HomePage extends Page {
-	get searchButton() { return browser.element( '[class="phabricator-main-menu-search-button"]' ); }
-	get searchBox() { return browser.element( '[name="query"]' ); }
+	get searchButton() { return $( '[class="phabricator-main-menu-search-button"]' ); }
+	get searchBox() { return $( '[name="query"]' ); }
 
 	open() {
 		super.open( '' );
@@ -11,10 +11,7 @@ class HomePage extends Page {
 
 	search( term ) {
 		this.open();
-		browser.setViewportSize( {
-			width: 1200,
-			height: 500
-		}, false );
+		browser.setWindowSize( 1200, 500 );
 		// this.searchButton.click();
 		this.searchBox.setValue( `${term}\n` );
 	}
