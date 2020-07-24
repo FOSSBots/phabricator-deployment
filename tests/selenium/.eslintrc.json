@@ -1,11 +1,4 @@
 {
-	"extends": [
-		"wikimedia"
-	],
-	"env": {
-		"mocha": true
-	},
-	"globals": {
-        "$": false
-	}
+  "root": true,
+  "extends": ["wikimedia/selenium"]
 }
