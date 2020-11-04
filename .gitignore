@@ -3,3 +3,4 @@
 *.pyc
 scap/log
 errorShots
+/tests/selenium/log
