@@ -20,8 +20,8 @@
 	branch = wmf/stable
 [submodule "libext/misc"]
 	path = libext/misc
-	url = https://phabricator.wikimedia.org/diffusion/PHEX/phab-extensions.git
-	branch = wmf/stable
+	url = https://github.com/miraheze/phabricator-extensions.git
+	branch = master
 [submodule "libext/ava"]
 	path = libext/ava
 	url = https://gerrit.wikimedia.org/r/phabricator/antivandalism
