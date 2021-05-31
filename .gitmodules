@@ -20,7 +20,7 @@
 	branch = wmf/stable
 [submodule "libext/misc"]
 	path = libext/misc
-	url = https://github.com/miraheze/phabricator-extensions.git
+	url = https://github.com/MirahezeBots/phabricator-extensions.git
 	branch = master
 [submodule "libext/ava"]
 	path = libext/ava
