@@ -26,7 +26,3 @@
 	path = libext/ava
 	url = https://gerrit.wikimedia.org/r/phabricator/antivandalism
     branch = wmf/stable
-[submodule "libphutil"]
-	path = libphutil
-	url = https://github.com/wikimedia/phabricator-libphutil
-	branch = wmf/stable
